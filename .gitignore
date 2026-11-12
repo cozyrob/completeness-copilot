@@ -1,0 +1,36 @@
+# Allowlist: si esclude tutto e si riammettono solo codice e documentazione.
+# Dati delle pratiche, risultati dei run, modelli addestrati e archivio restano locali.
+/*
+!/.gitignore
+!/README.md
+!/codice/
+!/documentazione/
+
+/codice/*
+!/codice/*.py
+!/codice/requirements.lock
+!/codice/tests/
+/codice/tests/*
+!/codice/tests/*.py
+
+/documentazione/*
+!/documentazione/README_pipeline.md
+!/documentazione/IMPLEMENTAZIONE_MODELLO_DEFINITIVO_13.md
+
+# Seconda barriera: questi formati non entrano mai, ovunque si trovino.
+*.parquet
+*.csv
+*.xlsx
+*.xls
+*.json
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.db
+*.sqlite
+*.zip
+*.tar.gz
+__pycache__/
+*.py[cod]
+.DS_Store
