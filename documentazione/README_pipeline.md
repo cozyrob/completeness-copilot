@@ -1,7 +1,6 @@
-# CompletenessCopilot EBM v2
+# Scelte metodologiche e protocollo
 
-Implementazione canonica e isolata del sistema di ranking documentale. La cartella
-originale non viene modificata.
+Decisioni incorporate nella pipeline di ranking documentale e protocollo di valutazione.
 
 ## Decisioni metodologiche incorporate
 
@@ -11,8 +10,7 @@ originale non viene modificata.
   pointwise sia in assoluto superiore a ogni ranker.
 - Le feature definitive sono 13 e l'EBM resta additivo (`interactions=0`).
   `doc_identita` e' inclusa; `int_prior_istruttore` e le otto variabili `pr_*` sono
-  escluse dal modello. Il file sorgente con l'istruttore resta nello snapshot solo per
-  provenienza e non viene letto dal codice.
+  escluse dal modello e i dati sull'istruttore non fanno parte dello snapshot.
 - Quattro regularized impact encoding rendono il contesto specifico del documento
   candidato: regime di intervento, singole opere, regime autorizzativo e cambio d'uso.
   Ogni valore e' la differenza tra una m-estimate contestuale e la probabilita' generale
@@ -41,10 +39,12 @@ Il percorso principale e' temporale:
 2. validazione: 1 aprile–30 giugno 2025;
 3. refit: date precedenti al 1 luglio 2025;
 4. test retrospettivo: 1 luglio–31 dicembre 2025;
-5. pratiche dal 1 gennaio 2026 escluse dal protocollo corrente.
+5. valutazione finale: refit su tutte le date precedenti al 1 gennaio 2026 e
+   valutazione dal 1 gennaio al 26 giugno 2026;
+6. pratiche dal 27 giugno 2026 escluse, perche' hanno meno di 90 giorni di osservazione.
 
-Il semestre H2 2025 e' gia' stato consultato negli esperimenti storici, quindi non e' un
-blind test. Nel testo della tesi va chiamato *benchmark temporale retrospettivo*. Una
+I semestri H2 2025 e H1 2026 sono gia' stati consultati negli esperimenti, quindi non sono
+blind test. Nel testo della tesi vanno chiamati *benchmark temporali retrospettivi*. Una
 conferma finale realmente indipendente richiede una futura estrazione matura mai usata
 per scelte di modello. La CV ripetuta 5x5 non fa parte della pipeline canonica; una sola
 CV a 5 fold puo' essere aggiunta in seguito come analisi di robustezza, senza usarla per
@@ -61,14 +61,19 @@ python3 run_ebm.py check
 Run di validazione (puo' richiedere diversi minuti):
 
 ```bash
-python3 run_ebm.py evaluate --stage validation --run-id validation_v1
+python3 run_ebm.py evaluate --stage validation --run-id <id>
 ```
 
 Solo dopo aver congelato le scelte sulla validazione, refit e benchmark H2 2025:
 
 ```bash
-python3 run_ebm.py evaluate --stage test --run-id test_retrospettivo_v1 \
-  --acknowledge-retrospective-test
+python3 run_ebm.py evaluate --stage test --run-id <id> --acknowledge-retrospective-test
+```
+
+Valutazione finale (refit pre-2026, valutazione H1 2026):
+
+```bash
+python3 run_ebm.py evaluate --stage h1_2026 --run-id <id> --acknowledge-retrospective-test
 ```
 
 Ogni run viene scritto in `out/<run-id>/` e non puo' sovrascrivere un run esistente.
@@ -78,7 +83,7 @@ dati, codice e artefatti. Il file `model.pkl` va caricato solo se prodotto local
 una fonte fidata. Verifica read-only:
 
 ```bash
-python3 verify_run.py out/validation_v1
+python3 verify_run.py out/<id>
 ```
 
 Test automatici:

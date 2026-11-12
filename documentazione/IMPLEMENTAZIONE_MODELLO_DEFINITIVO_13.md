@@ -42,14 +42,34 @@ supervisionate.
 - 7 test automatici: superati;
 - confronto con la matrice sperimentale approvata: uguaglianza esatta,
   differenza assoluta massima pari a zero;
-- run canonico `validation_13_final_v1`: completato;
+- run di validazione e run finale H1 2026: completati;
 - verifica di hash, schema, artefatti e metriche tramite `verify_run.py`:
   `status: ok`.
 
-## Risultati del run canonico
+## Risultati
 
-Il run usa lo snapshot principale configurato in `dati/`, con 1.584 pratiche di
-sviluppo e 590 di validazione, delle quali 209 incomplete.
+### Risultato finale: primo semestre 2026
+
+Rifit su 3.314 pratiche precedenti al 1° gennaio 2026, valutazione su 740 pratiche
+presentate dal 1° gennaio al 26 giugno 2026, delle quali 251 incomplete. Estrazione
+dati art. 22/23 aggiornata ad agosto 2026.
+
+| Metrica | Valore | IC 95% |
+|---|---:|---:|
+| R@3 | 58,49% | 53,17–63,79 |
+| Hit@3 | 73,71% | 68,35–79,09 |
+| R@5 | 66,22% | 61,29–71,21 |
+| Hit@5 | 80,08% | 75,00–85,14 |
+| R@10 | 73,80% | 68,95–77,97 |
+| Hit@10 | 85,66% | 81,12–89,78 |
+| MRR | 72,03% | 67,05–76,77 |
+| R-precision | 54,39% | 49,15–59,50 |
+
+### Validazione: secondo trimestre 2025 (fase di sviluppo)
+
+Run usato per scegliere la configurazione, calcolato sullo snapshot dati precedente
+(settembre 2026): 1.584 pratiche di sviluppo e 590 di validazione, delle quali 209
+incomplete. Non è il risultato finale.
 
 | Metrica | Valore |
 |---|---:|
@@ -61,6 +81,3 @@ sviluppo e 590 di validazione, delle quali 209 incomplete.
 | Hit@10 | 81,34% |
 | MRR | 67,50% |
 | R-precision | 47,43% |
-
-Il run completo è salvato in `out/validation_13_final_v1/` e non sovrascrive
-alcun artefatto precedente.
